@@ -24,11 +24,11 @@ const productSchema = new mongoose.Schema({
     },
     vendedor: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'users',   
+                ref: 'User',   
             }
 
 })
 
 // productSchema.plugin(mongoosePaginate)
 
-export const ProductModel = mongoose.model('products', productSchema)
+export const ProductModel = mongoose.model('Product', productSchema)

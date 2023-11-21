@@ -1,6 +1,6 @@
-import { TicketModel } from "./models/ticket.model";
-import UserDao from "./user.dao";
-import ProductDao from "./product.dao";
+import { TicketModel } from "./models/ticket.model.js";
+import UserDao from "./user.dao.js";
+import ProductDao from "./product.dao.js";
 const prodDao = new ProductDao();
 const userDao = new UserDao();
 
@@ -10,7 +10,7 @@ export default class TicketDao {
         
         try {
             let amountAcc = 0;
-
+            let producInCart = []
             const user = await userDao.getById(userId)
 
             if (!user) {
@@ -18,19 +18,21 @@ export default class TicketDao {
             }
 
             for (const prod of user.carts) {
-                const idProd = prod._id.toString()
+                const idProd = prod.product._id.toString()
                 const prodDb = await prodDao.getById(idProd)
-
+                
                 if (prod.qty <= prodDb.stock) { 
-                    const amount = prod.qty * prodDB.price;
+                    const amount = prod.qty * prodDb.price;
                     amountAcc += amount;
+                    producInCart.push(prodDb.title)
                 }
             }
 
               const ticket = await TicketModel.create({
-                    code: `${
+                code: `${
                     Math.random()
-                }`,
+                      }`,
+                productsInCart : producInCart,
                 purchase_datetime: new Date().toLocaleString(),
                 amount: amountAcc,
                 purchaser: user.email
@@ -40,7 +42,7 @@ export default class TicketDao {
             return ticket; 
             
         } catch (error) {
-            console.log(error)
+           httpResponse.NotFound(error)
         }
     }
 

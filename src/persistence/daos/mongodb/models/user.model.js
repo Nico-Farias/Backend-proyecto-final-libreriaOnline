@@ -28,14 +28,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user'
     },
+    tokenReset: {
+      type:String  
+    },
+    ultimaConexion: {
+      type:Date
+    },
 
 
     carts: [
         {
-            _id: false,
+           _id:false,
             product: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'products'
+                ref: 'Product'
             },
             qty: {
                 type: Number
@@ -47,8 +53,8 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.pre('find', function () {
-    this.populate('products')
+    this.populate('carts.product')
 })
 
 
-export const userModel = mongoose.model('users', userSchema)
+export const userModel = mongoose.model('User', userSchema)

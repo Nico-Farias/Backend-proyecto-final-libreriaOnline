@@ -1,4 +1,6 @@
-import {ProductModel} from './models/product.model.js';
+import { ProductModel } from './models/product.model.js';
+import { HttpResponse } from '../../../errors/http.response.js';
+const httpResponse = new HttpResponse();
 
 
 export default class ProductDao {
@@ -9,7 +11,7 @@ export default class ProductDao {
             const response = await ProductModel.create(obj)
             return response
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
@@ -18,7 +20,7 @@ export default class ProductDao {
             const response = await ProductModel.find({})
             return response;
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
@@ -27,7 +29,7 @@ export default class ProductDao {
             const response = await ProductModel.findOne({email})
             return response;
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
@@ -36,7 +38,7 @@ export default class ProductDao {
             const response = await ProductModel.findById(id);
             return response;
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error);
         }
     }
 
@@ -47,7 +49,7 @@ export default class ProductDao {
             }, obj);
             return obj;
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error);
         }
     }
 
@@ -56,7 +58,7 @@ export default class ProductDao {
             const response = await ProductModel.findByIdAndDelete(id);
             return response;
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error);
         }
     }
 
@@ -70,7 +72,7 @@ export default class ProductDao {
 
             return response;
         } catch (error) {
-            console.log(error.message)
+            httpResponse.NotFound(error)
         }
     }
 

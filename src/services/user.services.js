@@ -1,9 +1,13 @@
 import UserDao from "../persistence/daos/mongodb/user.dao.js";
 import pkg from 'jsonwebtoken'
+import { sendEmail } from "../utils/email.js";
+import { HttpResponse } from "../errors/http.response.js";
+import { logguer } from "../utils/logger.js";
+const httpResponse = new HttpResponse();
 const {sign} = pkg;
 const userDao = new UserDao()
 
-const SECRET_KEY = 'secret_key';
+
 
 export default class UserServices {
 
@@ -17,7 +21,7 @@ export default class UserServices {
             carts: user.carts
 
         }
-        const token = sign(payload, SECRET_KEY, {expiresIn: '60m'})
+        const token = sign(payload, process.env.SECRET_KEY, {expiresIn: '60m'})
         return token;
     }
 
@@ -26,7 +30,7 @@ export default class UserServices {
             const response = await userDao.register(user)
             return response;
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
@@ -35,7 +39,6 @@ export default class UserServices {
             const userExist = await userDao.login(user)
             if (userExist) {
                 const token = this.#generateToken(userExist)
-                console.log('token', token)
                 return token;
             } else {
                 return false;
@@ -43,7 +46,7 @@ export default class UserServices {
 
 
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
@@ -51,7 +54,7 @@ export default class UserServices {
         try {
             return await userDao.addProduct(idUser, idProd, qty)
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
@@ -60,7 +63,7 @@ export default class UserServices {
             const items = await userDao.getAll();
             return items;
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
     };
 
@@ -75,7 +78,7 @@ export default class UserServices {
 
 
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
     };
 
@@ -84,9 +87,54 @@ export default class UserServices {
             const response = await userDao.getByEmail(email)
             return response;
         } catch (error) {
-            console.log(error)
+            httpResponse.NotFound(error)
         }
     }
 
+    async deleteProdInCart(userId, prodId) { 
+        try {
+            const response = await userDao.deleteProdInCart(userId, prodId)
+            return response;
+            
+        } catch (error) {
+            httpResponse.NotFound(error)
+        }
+    }
+
+    async updateUser(userId, editedUser) {
+        try {
+            const response = await userDao.updateUser(userId, editedUser)
+            return response;
+            
+        } catch (error) {
+            httpResponse.NotFound(error)
+        }
+    }
+
+    async olvidePassword(email) {
+        try {
+            const token = await userDao.olvidePassword(email)
+            console.log(token)
+            const user = await userDao.getByEmail(email)
+            if (!token) {
+                return false;
+            }
+            logguer.success('Email enviado correctamente')
+            return await sendEmail(user,'resetPass', token)
+        } catch (error) {
+            httpResponse.NotFound(error)
+        }
+    }
+
+
+    async updatePassword(user,passwordActual, newPassword) { 
+        try {
+            const response = await userDao.updatePassword(user,passwordActual, newPassword)
+            return response;
+            
+        } catch (error) {
+            httpResponse.NotFound(error)
+        }
+    }
 
 }

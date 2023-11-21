@@ -1,4 +1,6 @@
 import ProductDao from "../persistence/daos/mongodb/product.dao.js";
+import { HttpResponse } from "../errors/http.response.js";
+const httpResponse = new HttpResponse()
 const ProdDao = new ProductDao();
 
 export default class ProductService {
@@ -9,7 +11,7 @@ export default class ProductService {
             const items = await ProdDao.getAll();
             return items;
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
     };
 
@@ -24,7 +26,7 @@ export default class ProductService {
 
 
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
     };
 
@@ -39,7 +41,7 @@ export default class ProductService {
 
 
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
     };
 
@@ -54,7 +56,7 @@ export default class ProductService {
 
 
         } catch (error) {
-            console.log(error);
+           httpResponse.NotFound(error)
         }
     };
 
@@ -69,7 +71,7 @@ export default class ProductService {
 
 
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
     };
 
@@ -77,7 +79,7 @@ export default class ProductService {
         try {
             await ProdDao.filterCategory(categoria)
         } catch (error) {
-            console.log(error);
+            httpResponse.NotFound(error)
         }
      }
 

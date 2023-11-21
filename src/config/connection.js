@@ -1,11 +1,15 @@
 import {connect} from "mongoose"
+import { logguer } from "../utils/logger.js"
 
-export const connectionDB = 'mongodb+srv://root:root@cluster1.jwkc8w3.mongodb.net/ClickBook'
+export const connectionDB = process.env.MONGO_URL;
 
 
+export const conectarDB = async ()=>{
 try {
     await connect(connectionDB)
-    console.log('Conectado a la base de datos mongoDB - ClickBook')
+    logguer.http('Conectado a la base de datos mongoDB - ClickBook')
 } catch (error) {
-    console.log(error)
+   logguer.error(error)
 }
+}
+

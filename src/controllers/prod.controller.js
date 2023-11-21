@@ -1,4 +1,8 @@
+import { userModel } from "../persistence/daos/mongodb/models/user.model.js";
 import ProductService from "../services/product.services.js";
+import { emailDeleteProduct } from "../utils/email.js";
+import { HttpResponse } from "../errors/http.response.js";
+import { logguer } from "../utils/logger.js";
 const ProdService = new ProductService()
 
 export default class ProductController {
@@ -36,9 +40,6 @@ export default class ProductController {
                 res.status(200).json(newItem)
 
 
-            
-
-
         } catch (error) {
             next(error.message);
         }
@@ -65,10 +66,23 @@ export default class ProductController {
         try {
             const {id} = req.params;
             const item = await ProdService.getById(id);
+            const { vendedor } = item;
+            const {_id} = vendedor;
+
+            const infoVendedor = await userModel.findById({_id})
+
             if (! item) 
                 res.status(402).json({msg: 'Item not found'})
 
-             else {
+            else {
+                
+                emailDeleteProduct({
+                    nombreProducto: item.title,
+                    emailVendedor: infoVendedor.email,
+                    nombreVendedor: infoVendedor.nombre
+                })
+
+                logguer.info('Email enviado correctamente')
                 const itemDel = await ProdService.delete(id);
                 res.status(200).json({msg: 'Items update', itemDel})
 
