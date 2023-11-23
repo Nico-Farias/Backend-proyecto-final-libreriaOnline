@@ -1,0 +1,387 @@
+paths:
+  /products/new-product:
+    post:
+      tags:
+      - ResProd
+      summary: Se agrego el producto en base de datos.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/Products"
+        required: true
+      responses:
+        200:
+          description: Se agrego el producto correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/ResProd/createProduct'
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/ResProd/notFound'
+        404:
+          description: Error de validacion del schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/validationError"
+      security:
+        - BearerAuth: []          
+  /products:  
+    get:
+      tags:
+      - ResProd
+      summary: Lista de ResProd
+      responses:
+        200:
+          description: Lista de ResProd
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/getAllProd"
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/notFound"
+        404:
+          description: Error de validacion del schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/validationError"
+  /products/id/{id}:
+    get:
+      tags:
+      - ResProd
+      summary: Buscar product por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del product.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/getProdById"
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/notFound"
+        404:
+          description: Error de validacion del schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/errorGetById"
+  /products/update-product/{id}:
+    put:
+      tags:
+      - ResProd
+      summary: Actualizar product por id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/Products"
+        required: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del product.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product actualizado
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/notFound"
+        404:
+          description: Error de validacion del schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/errorGetById"
+      security:
+        - BearerAuth: []          
+  /products/delete-product/{id}: 
+    delete:
+      tags:
+      - ResProd
+      summary: Eliminar product por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del product.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product Eliminado
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/notFound"
+        404:
+          description: Error de validacion del schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/errorGetById"
+      security:
+        - BearerAuth: []          
+  /ticket/purchase:
+    post:
+      tags:
+      - ResTicket
+      summary: Se creao correctamente el ticket.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/Ticket"
+        required: true
+      responses:
+        200:
+          description: Product actualizado
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/notFound"
+        404:
+          description: Error de validacion del schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/errorGetById"
+      security:
+        - BearerAuth: []  
+  /users/login: 
+    post:
+      tags: 
+      - ResUsers
+      summary: Login de usuario  
+      requestBody:  
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/parameters/schemas/Login'
+        required: true
+      responses:  
+        200:
+          description: Login success
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/ResUsers/login'   
+  /users: 
+    post:
+      tags: 
+      - ResUsers
+      summary: Registro de usuario
+      requestBody:  
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/parameters/schemas/Users'
+        required: true
+      responses:  
+        200:
+          description: User registrado correctamente
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/ResUsers/register'  
+    get:
+      tags:
+      - ResUsers
+      summary: Lista de users  
+      responses:  
+        200:
+          description: Users
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/ResUsers/allUsers'    
+      security:
+        - BearerAuth: []                   
+  /users/update-user/{userId}:
+    put:
+      tags:
+      - ResUsers
+      summary: Actualizar user por id
+      requestBody:  
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/parameters/schemas/Users'
+        required: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del user.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Se elimino el producto del carrito
+          ontent:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResUsers/updateUser"      
+  /users/update-password:  
+    put:
+      tags:
+      - ResUsers
+      summary: Actualizar password
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del user.
+          schema:
+            type: string  
+      responses:
+        200:
+          description: User eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/deleteUsers"       
+      security:
+        - BearerAuth: [] 
+    get:
+      tags:
+      - ResUsers
+      summary: Buscar user por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del user.
+          schema:
+            type: string
+      responses:
+        200:
+          description: User encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResProd/getUserById"
+      security:
+        - BearerAuth: [] 
+  /users/add/{idProd}:
+    post:
+      tags:
+      - ResUsers
+      summary: Agregar producto al carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del producto.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Agregado correctamente al carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResUsers/getUserById"
+      security:
+        - BearerAuth: []     
+  /users/update-cart/{userId}/{prodId}:
+    put:
+      tags:
+      - ResUsers
+      summary: Actualizar el carrito eliminando un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del user.
+          schema:
+            type: string
+        - in: path
+          name: qty
+          required: true
+          description: Id del producto.
+          schema:
+            type: number
+      responses:
+        200:
+          description: Se elimino el producto del carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResUsers/getUserById"
+      security:
+        - BearerAuth: []  
+  /users/olvide-password:
+    post:
+      tags:
+      - ResUsers
+      summary: Enviar email con token
+      parameters:
+        - in: path
+          name: email
+          required: true
+          description: email del usuario
+          schema:
+            type: string  
+      responses:
+        200:
+          description: se envio el email con el token
+          ontent:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResUsers/olvidePassword"     
+  /users/reset-password/{tokenReset}:
+    put:
+      tags:
+      - ResUsers
+      summary: Restablecer password
+      parameters:
+        - in: path
+          name: token
+          required: true
+          description: token reset
+          schema:
+            type: string  
+      responses:
+        200:
+          description: Resetear password
+          ontent:
+            application/json:
+              schema:
+                $ref: "#/components/schema/ResUsers/resetPassword" 
+                                           
+
+
+
+ 
+    

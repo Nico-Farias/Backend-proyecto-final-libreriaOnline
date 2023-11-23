@@ -45,7 +45,7 @@ export default class UserController {
             }
 
             if (! user) {
-                res.json({msg: 'Usuario no registrado'})
+                res.status(404).json({msg: 'Usuario no registrado'})
             }
 
             //GUARDAR ULTIMO LOGUEO

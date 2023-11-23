@@ -1,0 +1,121 @@
+components:
+  parameters:
+    schemas:
+      Products:
+        type: object
+        required:
+          - name
+          - description
+          - category
+          - stock
+          - price
+          - imagen
+        properties:
+          name:
+            type: String
+          description:
+            type: String
+          category:
+            type: String
+          stock:
+            type: number
+          price:
+            type: number
+          imagen:
+            type: String
+          vendedor:
+            type: objectId  
+        example:
+          name: Camiseta boca juniors
+          description: Camiseta de boca juniors temporada 2023
+          category: Camiseta
+          stock: 10
+          price: 32000
+          imagen: http://sdfsdf.com/sdfsdf.jpg
+          vendedor: jansdas7da5a59sda      
+      Ticket:
+        type: object
+        required:
+          - code
+          - puchase_datetime
+          - productsInCart
+          - amount
+          - purchaser
+        properties:
+          code:
+            type: String
+          purchase_datetime:
+            type: String
+          productsInCart:
+            type: array  
+          amount:
+            type: number
+          purchaser:
+            type: string
+        example:
+          code: 123143423472
+          purchase_datetime: 12/12/23
+          productsInCart: ['libro 1' , 'libro 2']
+          amount: 32000
+          purchaser: nicoscs12@gmail.com
+      Users:
+        type: object
+        required:
+          - nombre
+          - apellido
+          - email
+          - password
+          - admin
+          - role
+          - tokenReset
+          - ultimaConexion
+          - carts
+        properties:
+          nombre:
+            type: String
+          apellido:
+            type: String
+          email:
+            type: String
+          password:
+            type: string
+          admin:
+            type: boolean
+          role:
+            type: String
+          tokenReset:
+            type: String 
+          ultimaConexion:
+            type: Date   
+          carts:
+            type: array
+        example:
+          nombre: juan carlos
+          apellido: farias
+          email: nicoscs12@gmail.com
+          password: 12345
+          admin: true
+          role: premiun
+          tokenReset: ''
+          ultimaConexion: 12/12/2023
+          carts: []
+      Login:
+        type: object
+        required:   
+          - email
+          - password
+        properties:  
+          email:
+            type: string
+            description: Email del usuario 
+          password:
+            type: string
+            description: Password del usuario
+        example:
+          email: juan@mail.com
+          password: abc123def456
+  securitySchemes:
+    BearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

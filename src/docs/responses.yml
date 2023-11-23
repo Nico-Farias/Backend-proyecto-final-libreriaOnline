@@ -1,0 +1,244 @@
+components:
+  schema:
+    ResProd:
+      createProduct:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id del producto.
+          name:
+            type: string
+            description: Nombre del producto.
+          description:
+            type: string
+            description: Descripcion del producto.
+          category:
+            type: string
+            description: Categoria del producto.
+          stock:
+            type: number
+            description: stock del producto.
+          price:
+            type: number
+            description: Precio del producto.
+          imagen:
+            type: string
+            description: Imagen del producto.
+        example: 
+          id: asdsdasdasdad
+          name: Camiseta boca juniors
+          description: Camiseta de boca juniors temporada 2023
+          category: Camiseta
+          stock: 10
+          price: 32000
+          imagen: http://sdfsdf.com/sdfsdf.jpg
+      getAllProd:
+        type: array
+        items:
+          properties:
+            id:
+              type: string
+              description: Id del producto.
+            name:
+              type: string
+              description: Nombre dle producto.
+            description:
+              type: string
+              escription: Descripcion del producto.
+            category:
+              type: string
+              description: Categoria del producto.
+            stock:
+              type: number
+              description: stock del producto.
+            price:
+              type: number
+              description: Precio del producto.
+            imagen:
+              type: string
+              description: Imagen del producto.
+            owner:
+              type: string
+              description: Creador del product. 
+          example: 
+           description: Camiseta de boca juniors temporada 2023
+           category: Camiseta
+           stock: 10
+           price: 32000
+           imagen: http://sdfsdf.com/sdfsdf.jpg
+           owner: admin  
+      validationError:
+        type: object
+        properties:
+          msg: 
+            type: string
+            description: Error de validacion de schema
+        example:
+          msg: Validation Schema error
+      notFound:
+        type: object
+        properties:
+          msg:
+            type: string
+            description: Not found
+        example:
+          msg: Not found
+      errorGetById:
+        type: object
+        properties:
+          msg:
+            type: string
+            description: Error de búsqueda por id
+        example:
+          msg: No se encontró el id ${id} en la base de datos.
+      getProdById:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id del producto.
+          name:
+            type: string
+            description: Nombre dle producto.
+          description:
+            type: string
+            description: Descripcion del producto.
+          category:
+            type: string
+            description: Categoria del producto.
+          stock:
+            type: number
+            description: stock del producto.
+          price:
+            type: number
+            description: Precio del producto.
+          imagen:
+            type: string
+            description: Imagen del producto.
+          owner:
+            type: string
+            description: Creador del product. 
+        example: 
+          description: Camiseta de boca juniors temporada 2023
+          category: Camiseta
+          stock: 10
+          price: 32000
+          imagen: http://sdfsdf.com/sdfsdf.jpg
+          owner: admin        
+    ResTicket:
+      generateTicket:
+        type: object
+        required:
+          - code
+          - puchase_datetime
+          - amount
+          - purchaser
+        properties:
+          code:
+            type: String
+          purchase_datetime:
+            type: String
+          amount:
+            type: number
+          purchaser:
+            type: string
+        example:
+          code: 123143423472
+          purchase_datetime: 12/12/23
+          amount: 32000
+          purchaser: nicoscs12@gmail.com
+    ResUsers:
+      login:
+        type: object
+        properties: 
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: string
+            description: Token del usuario autenticado
+        example:
+          status: 200
+          message: Success
+          data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI
+      register:
+        type: object
+        required:
+          - nombre
+          - apellido
+          - email
+          - password
+          - admin
+          - role
+          - carts
+        properties:
+          nombre:
+            type: String
+          apellido:
+            type: String
+          email:
+            type: String
+          password:
+            type: string
+          admin:
+            type: boolean
+          role:
+            type: String
+          carts:
+            type: array
+        example:
+          nombre: juan carlos
+          apellido: farias
+          email: nicoscs12@gmail.com
+          password: 12345
+          admin: true
+          role: premiun
+          carts: []    
+      allUsers:
+        type: array
+      getUserById:
+        type:object
+      updateUser:
+        type: object
+        properties:
+          nombre:
+            type: String
+          apellido:
+            type: String
+          email:
+            type: String
+          password:
+            type: string
+        example:
+          nombre: juan carlos
+          apellido: farias
+          email: nicoscs12@gmail.com
+          password: 12345
+      olvidePassword:
+        type: object
+        required:
+          - email
+        properties:
+          email:
+            type: String
+        example:
+          email: nicoscs12@gmail.com
+      resetPassword:
+        type: object
+        required:
+          - password
+          - repetir password
+        properties:
+          password:
+            type: String
+          resetPassword:
+            type: String  
+        example:
+          password: 12345
+          resetPassword: 12345   
+
+  
