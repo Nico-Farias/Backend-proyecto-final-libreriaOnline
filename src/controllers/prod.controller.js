@@ -11,7 +11,7 @@ export default class ProductController {
     getAll = async (req, res, next) => {
         try {
             const items = await ProdService.getAll({});
-            res.status(200).json(items)
+            res.json(items)
         } catch (error) {
             next(error.message);
         }
@@ -22,9 +22,9 @@ export default class ProductController {
             const {id} = req.params;
             const item = await ProdService.getById(id);
             if (! item) 
-                res.status(404).json({msg: 'Id not found'});
+                res.json({msg: 'Id not found'});
              else 
-                res.status(200).json(item)
+                res.json(item)
 
         } catch (error) {
             next(error.message);
@@ -35,9 +35,9 @@ export default class ProductController {
         try {
             const newItem = await ProdService.create(req.body);
             if (! newItem) 
-                res.status(402).json({msg: 'Validation error'})
+                res.json({msg: 'Validation error'})
              else 
-                res.status(200).json(newItem)
+                res.json(newItem)
 
 
         } catch (error) {
@@ -50,10 +50,10 @@ export default class ProductController {
             const {id} = req.params;
             const item = await ProdService.getById(id);
             if (!item) {
-                res.status(404).json({msg: 'Item not found'})
+                res.json({msg: 'Item not found'})
             }else {
                 const itemUpd = await ProdService.update(id, req.body);
-                res.status(200).json({msg: 'Items update', itemUpd})
+                res.json({msg: 'Items update', itemUpd})
 
             }
         } catch (error) {
@@ -72,7 +72,7 @@ export default class ProductController {
             const infoVendedor = await userModel.findById({_id})
 
             if (! item) 
-                res.status(402).json({msg: 'Item not found'})
+                res.json({msg: 'Item not found'})
 
             else {
                 
@@ -84,7 +84,7 @@ export default class ProductController {
 
                 logguer.info('Email enviado correctamente')
                 const itemDel = await ProdService.delete(id);
-                res.status(200).json({msg: 'Items update', itemDel})
+                res.json({msg: 'Items update', itemDel})
 
             }
         } catch (error) {

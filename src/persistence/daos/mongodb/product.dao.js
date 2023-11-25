@@ -11,7 +11,7 @@ export default class ProductDao {
             const response = await ProductModel.create(obj)
             return response
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw error
         }
     }
 
@@ -20,7 +20,7 @@ export default class ProductDao {
             const response = await ProductModel.find({})
             return response;
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw error
         }
     }
 
@@ -29,7 +29,7 @@ export default class ProductDao {
             const response = await ProductModel.findOne({email})
             return response;
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw error
         }
     }
 
@@ -38,7 +38,7 @@ export default class ProductDao {
             const response = await ProductModel.findById(id);
             return response;
         } catch (error) {
-            httpResponse.NotFound(error);
+            throw error;
         }
     }
 
@@ -49,7 +49,7 @@ export default class ProductDao {
             }, obj);
             return obj;
         } catch (error) {
-            httpResponse.NotFound(error);
+            throw error;
         }
     }
 
@@ -58,7 +58,7 @@ export default class ProductDao {
             const response = await ProductModel.findByIdAndDelete(id);
             return response;
         } catch (error) {
-            httpResponse.NotFound(error);
+            throw error;
         }
     }
 
@@ -72,7 +72,7 @@ export default class ProductDao {
 
             return response;
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw error
         }
     }
 

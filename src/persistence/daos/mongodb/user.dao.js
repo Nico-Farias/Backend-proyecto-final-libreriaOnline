@@ -5,6 +5,7 @@ import { HttpResponse } from '../../../errors/http.response.js';
 const httpResponse = new HttpResponse()
 import cron from 'cron'
 import { logguer } from '../../../utils/logger.js';
+import { usuarioEliminado } from '../../../utils/email.js';
 const {CronJob} = cron
 const { sign } = pkg;
 
@@ -13,6 +14,8 @@ const { sign } = pkg;
 
 export default class UserDao {
 
+
+    // VERIFICAR INACTIVIDAD DE USUARIOS    
     static async verificarInactividad() {
         const tresDiasEnMilisegundos = 3 * 24 * 60 * 60 * 1000; // 3 días en milisegundos
         const tiempoActual = new Date();
@@ -25,7 +28,12 @@ export default class UserDao {
             if (usuariosInactivos.length > 0) { 
                 for (const usuario of usuariosInactivos) {
                     await userModel.findByIdAndDelete(usuario._id);;
-                   logguer.success(`El usuario ${usuario.nombre} ha sido eliminado por inactividad.`);
+                    logguer.success(`El usuario ${usuario.nombre} ha sido eliminado por inactividad.`);
+                   
+                   await usuarioEliminado({
+                        nombre: usuario.nombre,
+                        email: usuario.email
+                    })
                 }
             } else {
                 logguer.info('No hay usuarios inactivos para eliminar.');
@@ -35,14 +43,20 @@ export default class UserDao {
         }
     }
 
-    static startVerificarInactividad() {
-        const job = new CronJob('0 0 * * *', () => {
+  static startVerificarInactividad() {
+    try {
+        const job = new CronJob('*/30 * * * *', () => {
             logguer.info('Ejecutando verificación de inactividad de usuarios...');
             UserDao.verificarInactividad();
         });
 
         job.start();
+        logguer.info('CronJob para verificar inactividad de usuarios iniciado correctamente.');
+    } catch (error) {
+        logguer.error('Error al iniciar el CronJob para verificar inactividad de usuarios:', error);
     }
+}
+
 
 
     generateToken(user, timeExp) {
@@ -70,7 +84,7 @@ export default class UserDao {
 
 
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -90,7 +104,7 @@ export default class UserDao {
 
             }
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -122,7 +136,7 @@ export default class UserDao {
 
             return updatedUser;
         } catch (error) {
-            httpResponse.NotFound(error);
+            throw new Error(error.message);;
         }
     }
 
@@ -165,7 +179,7 @@ export default class UserDao {
 
             return response;
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -174,7 +188,7 @@ export default class UserDao {
             const response = await userModel.findById(id)
             return response;
         } catch (error) {
-            httpResponse.NotFound(error);
+            throw new Error(error.message);;
         }
     }
 
@@ -183,7 +197,7 @@ export default class UserDao {
             const response = await userModel.find({})
             return response;
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -198,7 +212,7 @@ export default class UserDao {
             return updateUser;
             
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -211,7 +225,7 @@ export default class UserDao {
             return response;
 
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -237,7 +251,7 @@ export default class UserDao {
             return this.generateToken(userExist, '1h')
             
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 
@@ -264,7 +278,7 @@ export default class UserDao {
             const nuevaPassword = createHash(newPassword)
             return await this.update(userId,{password : nuevaPassword})
         } catch (error) {
-            httpResponse.NotFound(error)
+            throw new Error(error.message);
         }
     }
 

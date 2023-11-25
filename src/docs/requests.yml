@@ -4,18 +4,15 @@ components:
       Products:
         type: object
         required:
-          - name
-          - description
-          - category
+          - title
+          - categoria
           - stock
           - price
           - imagen
         properties:
-          name:
+          title:
             type: String
-          description:
-            type: String
-          category:
+          categoria:
             type: String
           stock:
             type: number
@@ -26,9 +23,8 @@ components:
           vendedor:
             type: objectId  
         example:
-          name: Camiseta boca juniors
-          description: Camiseta de boca juniors temporada 2023
-          category: Camiseta
+          title: Camiseta boca juniors
+          categoria: Camiseta
           stock: 10
           price: 32000
           imagen: http://sdfsdf.com/sdfsdf.jpg

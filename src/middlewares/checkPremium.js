@@ -12,7 +12,7 @@ export const checkPremium = async (req, res, next) => {
     try {
         const auth = req.get("Authorization");
         if (! auth) {
-            return httpResponse.Unauhtorized(res,{msg: 'Unauthorized'})
+           return res.json({msg: 'Unauthorized'})
         }
 
         const token = auth.split(' ')[1];
@@ -21,12 +21,12 @@ export const checkPremium = async (req, res, next) => {
         const user = await userDao.getById(decode.userId)
 
         if (! user) {
-           return httpResponse.Unauhtorized(res,{msg: 'Unauthorized'})
+          return res.json({msg: 'Unauthorized'})
         }
         const userPremium = user.role.premium;
 
         if (userPremium !== true) {
-           return httpResponse.Unauhtorized(res,{msg: 'Unauthorized'})
+          return res.json({msg: 'Unauthorized'})
         }
 
         next()

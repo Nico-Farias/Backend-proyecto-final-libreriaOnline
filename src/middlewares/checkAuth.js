@@ -13,7 +13,7 @@ export const checkAuth = async (req, res, next) => {
     try {
         const auth = req.header("Authorization");
         if (! auth) {
-            return httpResponse.Unauhtorized(res,{msg: 'Unauthorized'})
+            return res.json({msg: 'Unauthorized'})
         }
 
         const token = auth.split(' ')[1];
@@ -22,7 +22,7 @@ export const checkAuth = async (req, res, next) => {
         const user = await userDao.getById(decode.userId)
 
         if (! user) {
-             return httpResponse.Unauhtorized(res,{msg: 'Unauthorized'})
+             return res.json({msg: 'Unauthorized'})
         }
 
         const now = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
@@ -42,6 +42,6 @@ export const checkAuth = async (req, res, next) => {
         next()
     } catch (error) {
        logguer.error("Error al verificar el token:", error);
-      return httpResponse.Unauhtorized(res,{msg: 'Unauthorized'})
+      return res.json({msg: 'Unauthorized'})
     }
 }

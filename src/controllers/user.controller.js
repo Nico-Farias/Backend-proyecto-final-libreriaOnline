@@ -24,7 +24,7 @@ export default class UserController {
             }
 
             sendEmail(newUser, 'register')
-            res.json({ msg: 'Usuario creado correctamente' })
+            res.json({ msg: 'Usuario creado correctamente', newUser })
             logguer.info('Email enviado correctamente')
 
         } catch (error) {

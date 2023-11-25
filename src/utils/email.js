@@ -1,13 +1,15 @@
 import { createTransport } from "nodemailer";
 
+const EMAIL ='nicoscs12@gmail.com'
+const PASSWORD='rwudezcezxcqjzat'
 
 const transporter = createTransport({
     service:'gmail',
     port: 465,
     secure: true,
     auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
+        user: EMAIL,
+        pass: PASSWORD
     }
 })
 
@@ -105,6 +107,23 @@ export const emailFinalizarCompra = async (datos) => {
         <p>Total: $${ticket.amount}</p>
         
     
+        `
+    })
+
+}
+
+export const usuarioEliminado = async (datos) => {
+    const { email,nombre } = datos;
+
+     transporter.sendMail({
+
+
+        from: '"CLICKBOOK" <usuarios@clickbook.com>',
+        to: email,
+        subject: "ClickBook",
+        text: "Usuario eliminado",
+        html: `<p>Hola: ${nombre} tu cuenta ah sido eliminada por inactividad</p>
+      
         `
     })
 

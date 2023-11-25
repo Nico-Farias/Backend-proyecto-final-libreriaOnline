@@ -196,7 +196,7 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schema/ResUsers/login'   
-  /users: 
+  /users/register: 
     post:
       tags: 
       - ResUsers
@@ -214,6 +214,7 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schema/ResUsers/register'  
+  /users/users/all-users:  
     get:
       tags:
       - ResUsers
