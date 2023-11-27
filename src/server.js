@@ -24,14 +24,14 @@ app.use(express.urlencoded({extended: true}));
 
 // configurar CORS
 
-const whitelist = [process.env.FRONTEND_URL, process.env.BACKEND_URL];
+const whitelist = [process.env.FRONTEND_URL];
 
 
 
 const corsOptions = {
 
-   
-    
+    origin:'*'
+    /*
     origin: function (origin, callback) {
         if (whitelist.includes(origin)) {
             callback(null, true)
@@ -41,7 +41,7 @@ const corsOptions = {
             callback(new Error('Error de cors'));
         }
     },
-   
+   */
     
 }
 
