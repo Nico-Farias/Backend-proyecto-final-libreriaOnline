@@ -24,7 +24,7 @@ app.use(express.urlencoded({extended: true}));
 
 // configurar CORS
 
-const whitelist = [process.env.FRONTEND_URL];
+const whitelist = [process.env.FRONTEND_URL, process.env.BACKEND_URL];
 
 
 
