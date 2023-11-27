@@ -23,15 +23,15 @@ app.use(cookieParser(process.env.SECRET_KEY_COOKIE))
 app.use(express.urlencoded({extended: true}));
 
 // configurar CORS
-const BACKEND = 'localhost:4000/api/products'
-const whitelist = [process.env.FRONTEND_URL, BACKEND];
+
+const whitelist = [process.env.FRONTEND_URL];
 
 
 
 const corsOptions = {
 
-    origin:'*'
-    /*
+   
+    
     origin: function (origin, callback) {
         if (whitelist.includes(origin)) {
             callback(null, true)
@@ -41,7 +41,7 @@ const corsOptions = {
             callback(new Error('Error de cors'));
         }
     },
-   */
+   
     
 }
 
