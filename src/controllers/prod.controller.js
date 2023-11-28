@@ -38,7 +38,7 @@ export default class ProductController {
                 res.json({msg: 'Validation error'})
              else 
                 res.json(newItem)
-
+            logguer.info(newItem)
 
         } catch (error) {
             next(error.message);
@@ -54,7 +54,7 @@ export default class ProductController {
             }else {
                 const itemUpd = await ProdService.update(id, req.body);
                 res.json({msg: 'Items update', itemUpd})
-
+            logguer.info(itemUpd)
             }
         } catch (error) {
             console.log(error)
@@ -84,7 +84,8 @@ export default class ProductController {
 
                 logguer.info('Email enviado correctamente')
                 const itemDel = await ProdService.delete(id);
-                res.json({msg: 'Items update', itemDel})
+                res.json({ msg: 'Items update', itemDel })
+                logguer.info(itemDel)
 
             }
         } catch (error) {
